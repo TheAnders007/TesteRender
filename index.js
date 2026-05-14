@@ -1,22 +1,26 @@
 const express = require("express");
+const mongoose = require("mongoose");
 const cors = require("cors");
 
 const app = express();
 
-app.use(cors());
+mongoose.connect(process.env.MONGO_URL);
 
-app.get("/", (req, res) => {
-  res.send("Backend funcionando!");
+const Nota = mongoose.model("Nota", {
+  notaFinal: Number
 });
 
-app.get("/mensagem", (req, res) => {
-  res.json({
-    texto: "Olá do backend!"
+app.use(express.json());
+
+app.post("/notas", async (req, res) => {
+
+  const nota = new Nota({
+    notaFinal: req.body.notaFinal
   });
-});
 
-const PORT = process.env.PORT || 3000;
+  await nota.save();
 
-app.listen(PORT, () => {
-  console.log("Servidor rodando");
-});
+  res.json({
+    mensagem: "Salvo!"
+  });
+})
