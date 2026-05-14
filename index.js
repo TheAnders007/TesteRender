@@ -4,13 +4,21 @@ const cors = require("cors");
 
 const app = express();
 
-mongoose.connect(process.env.MONGO_URL);
+app.use(express.json());
+app.use(cors());
+
+mongoose.connect(process.env.MONGO_URL)
+  .then(() => {
+    console.log("MongoDB conectado!");
+  })
+  .catch((erro) => {
+    console.log("Erro ao conectar:", erro);
+  });
 
 const Nota = mongoose.model("Nota", {
   notaFinal: Number
 });
 
-app.use(express.json());
 
 app.post("/notas", async (req, res) => {
 
@@ -24,3 +32,9 @@ app.post("/notas", async (req, res) => {
     mensagem: "Salvo!"
   });
 })
+
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+  console.log("Servidor rodando");
+});
