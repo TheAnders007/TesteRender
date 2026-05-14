@@ -7,15 +7,15 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-console.log(process.env.MONGO_URL);
+mongoose.connect(process.env.MONGO_URL);
 
-mongoose.connect(process.env.MONGO_URL)
-  .then(() => {
-    console.log("MongoDB conectado!");
-  })
-  .catch((erro) => {
-    console.log("Erro ao conectar:", erro);
-  });
+mongoose.connection.on("connected", () => {
+  console.log("Mongo conectado!");
+});
+
+mongoose.connection.on("error", (erro) => {
+  console.log("Erro Mongo:", erro);
+});
 
 const Nota = mongoose.model("Nota", {
   notaFinal: Number
