@@ -22,6 +22,7 @@ mongoose.connect(process.env.MONGO_URL)
   });
 
 const Nota = mongoose.model("Nota", {
+  jurado: String,
   turma: String,
 
   catAdequacaoTrama: Number,
