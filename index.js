@@ -56,6 +56,22 @@ app.post("/notas", async (req, res) => {
   }
 });
 
+app.get("/notas", async (req, res) => {
+
+  try {
+
+    const notas = await Nota.find();
+
+    res.json(notas);
+
+  } catch (erro) {
+
+    res.status(500).json({
+      erro: "Erro ao buscar notas"
+    });
+  }
+});
+
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
