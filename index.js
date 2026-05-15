@@ -16,6 +16,11 @@ mongoose.connect(process.env.MONGO_URL)
   });
 
 const Nota = mongoose.model("Nota", {
+  catAdequacaoTrama: Number,
+  catCriatividade: Number,
+  catConcepcaoCenica: Number,
+  catExecucaoArtistica: Number,
+
   notaFinal: Number
 });
 
@@ -28,6 +33,10 @@ app.post("/notas", async (req, res) => {
   try {
 
     const nota = new Nota({
+      catAdequacaoTrama: req.body.catAdequacaoTrama,
+      catCriatividade: req.body.catCriatividade,
+      catConcepcaoCenica: req.body.catConcepcaoCenica,
+      catExecucaoArtistica: req.body.catExecucaoArtistica,
       notaFinal: req.body.notaFinal
     });
 
