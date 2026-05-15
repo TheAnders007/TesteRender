@@ -4,6 +4,12 @@ const cors = require("cors");
 
 const app = express();
 
+const jurados = {
+  "AAA111": "Carlos",
+  "BBB222": "Marina",
+  "CCC333": "Fernanda"
+};
+
 app.use(cors());
 app.use(express.json());
 
@@ -33,8 +39,18 @@ app.get("/", (req, res) => {
 app.post("/notas", async (req, res) => {
 
   try {
+    const nomeJurado = jurados[req.body.codigo];
+
+    if (!nomeJurado) {
+
+      return res.status(401).json({
+
+        erro: "Código inválido"
+      });
+    }
 
     const nota = new Nota({
+      jurado: nomeJurado,
       turma: req.body.turma,
       catAdequacaoTrama: req.body.catAdequacaoTrama,
       catCriatividade: req.body.catCriatividade,
