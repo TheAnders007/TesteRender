@@ -33,9 +33,37 @@ const Nota = mongoose.model("Nota", {
   notaFinal: Number
 });
 
+const User = mongoose.model("Usuario", {
+  usuario: String,
+  senha: String
+});
+
 app.get("/", (req, res) => {
   res.send("API funcionando!");
 });
+
+app.post("/login", async (req, res) => {
+  try {
+    const usuarioDigitado = req.body.usuario;
+    const senhaDigitada = req.body.senha;
+
+    const usuario = await Usuario.findOne({usuario: usuarioDigitado});
+
+    if (!usuario) {
+      return res.status(401).json({erro: "Usuário Não Encontrado!"});
+    }
+
+    if (senhaDigitada !== usuario.senha){
+      return res.status(401).json({erro: "Senha Incorreta"});
+    }
+
+    res.json({mensagem: "Login Realizado!"})
+  } catch(erro) {
+      console.log(erro);
+      res.status(500).json({erro: "Erro Interno"})
+  }
+})
+
 
 app.post("/notas", async (req, res) => {
 
