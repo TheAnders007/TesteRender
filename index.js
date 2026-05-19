@@ -33,7 +33,7 @@ const Nota = mongoose.model("Nota", {
   notaFinal: Number
 });
 
-const User = mongoose.model("Usuario", {
+const Usuario = mongoose.model("Usuario", {
   usuario: String,
   senha: String
 });
@@ -48,7 +48,7 @@ app.post("/login", async (req, res) => {
     const senhaDigitada = req.body.senha;
 
     console.log(req.body);
-    
+
     const usuario = await Usuario.findOne({usuario: usuarioDigitado});
     console.log(usuario)
 
