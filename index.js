@@ -47,7 +47,10 @@ app.post("/login", async (req, res) => {
     const usuarioDigitado = req.body.usuario;
     const senhaDigitada = req.body.senha;
 
+    console.log(req.body);
+    
     const usuario = await Usuario.findOne({usuario: usuarioDigitado});
+    console.log(usuario)
 
     if (!usuario) {
       return res.status(401).json({erro: "Usuário Não Encontrado!"});
